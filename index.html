@@ -25,7 +25,7 @@ Requisitos:
        <thead>
           <tr>
              <th>Data e hora</th>
-             <th>E-mail do responsável</th>
+             <th>e-mail do responsável</th>
              <th>Mensagem de ética</th>
           </tr>
        </thead>
@@ -36,7 +36,7 @@ Requisitos:
 
 
 <script>
-    const target = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQSHuOn8ktKO3l4rirMV_TjqSP7mOizvssdFFb6VMLcl4kIxNB44h6kJNmHEPM73qdCNT4huOKSM1oi/pub?gid=1648505482&single=true&output=tsv`;
+    const target = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSHuOn8ktKO3l4rirMV_TjqSP7mOizvssdFFb6VMLcl4kIxNB44h6kJNmHEPM73qdCNT4huOKSM1oi/pub?gid=1648505482&single=true&output=tsv";
 
 
     const readCSVFile = async() => {
@@ -47,11 +47,12 @@ Requisitos:
                 headers: {
                     'content-type': 'text/csv;charset=UTF-8',
                 }
-            }).then(v => console.log(v))
+            })
 
             if (response.status === 200) {
                 const data = await response.text();
                 console.log(data);
+                getContent(data);
 
             } else {
                 console.log(`Error code ${response.status}`);
