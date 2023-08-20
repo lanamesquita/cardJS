@@ -1,0 +1,95 @@
+<!--
+Requisitos:
+- Criar um forms no GoogleForms para cadastrar as dicas de ética. Nesse cadastro tem um campo texto longo.
+- Investigar a quantidade de caracteres máximo do texto.
+- Criar um carrosel em html e javascript
+- Os textos devem ser atualizados a cada 2 minutos de forma randômica. Alterar a cor de fundo. Utilizar paleta com vários tons de azul.
+- Inserir carrosel na Intranet.
+-->
+
+<meta charset="UTF-8">
+
+<!-- CSS -->
+<style type="text/css">
+    table th, table td{
+    padding: 5px;
+    }
+ </style>
+ <div>
+    <div>
+       <input type="button" id="btnsubmit" value="Submit" onclick="setList();" >
+    </div>
+    <br><br>
+    <!-- List CSV file data -->
+    <table id="tblcsvdata" border="1" style="border-collapse: collapse;">
+       <thead>
+          <tr>
+             <th>Data e hora</th>
+             <th>E-mail do responsável</th>
+             <th>Mensagem de ética</th>
+          </tr>
+       </thead>
+       <tbody>
+       </tbody>
+    </table>
+ </div>
+
+
+<script>
+    const target = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQSHuOn8ktKO3l4rirMV_TjqSP7mOizvssdFFb6VMLcl4kIxNB44h6kJNmHEPM73qdCNT4huOKSM1oi/pub?gid=1648505482&single=true&output=tsv`;
+
+
+    const readCSVFile = async() => {
+
+        try {
+            const response = await fetch(target, {
+                method: 'get',
+                headers: {
+                    'content-type': 'text/csv;charset=UTF-8',
+                }
+            }).then(v => console.log(v))
+
+            if (response.status === 200) {
+                const data = await response.text();
+                console.log(data);
+
+            } else {
+                console.log(`Error code ${response.status}`);
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    function getContent(csvdata){
+        var rowData = csvdata.split('\n');
+        var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
+               tbodyEl.innerHTML = ""
+        // Loop on the row Array (change row=0 if you also want to read 1st row)
+        for (var row = 1; row < rowData.length; row++) {
+            // Insert a row at the end of table
+            var newRow = tbodyEl.insertRow();
+
+            // Split by comma (,) to get column Array
+            rowColData = rowData[row].split('\t');
+
+            // Loop on the row column Array
+            for (var col = 0; col < rowColData.length; col++) {
+
+                // Insert a cell at the end of the row
+                var newCell = newRow.insertCell();
+                newCell.innerHTML = rowColData[col];
+
+            }
+        }
+        
+    }
+
+    function setList(){
+        readCSVFile(target);
+
+    }
+    
+    
+ </script>
