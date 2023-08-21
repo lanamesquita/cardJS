@@ -1,7 +1,7 @@
 <!--
    Requisitos:
-   - Criar um forms no GoogleForms para cadastrar as dicas de ética. Nesse cadastro tem um campo texto longo.
-   - Investigar a quantidade de caracteres máximo do texto.
+   - Criar um forms no GoogleForms para cadastrar as dicas de ética. Nesse cadastro tem um campo texto longo. OK
+   - Investigar a quantidade de caracteres máximo do texto. -> 120
    - Criar um carrosel em html e javascript
    - Os textos devem ser atualizados a cada 2 minutos de forma randômica. Alterar a cor de fundo. Utilizar paleta com vários tons de azul.
    - Inserir carrosel na Intranet.
@@ -10,9 +10,10 @@
 
 <!-- CSS -->
 <style type="text/css">
-    table th,
-    table td {
-        padding: 5px;
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
     }
 
     #blocoMensagem {
@@ -22,8 +23,11 @@
         position: relative;
         background: #ededed;
         display: flex;
-        align-items: center; /* Vertical center alignment */
-        justify-content: center; /* Horizontal center alignment */
+        align-items: center;
+        /* Vertical center alignment */
+        justify-content: center;
+        /* Horizontal center alignment */
+        cursor: pointer;
     }
 
     #texto {
@@ -45,40 +49,14 @@
         left: 0;
     }
 
-    /*<li style="background: #0a2161"></li>
-        <li style="background: #5c81e6"></li>
-        <li style="background: #164ce0"></li>
-        <li style="background: #192c61"></li>
-        <li style="background: #113aad"></li>*/
-
+    /* lista de cores para usar no fundo: #0a2161", #5c81e6", #164ce0, #192c61, #113aad */
 </style>
 <div>
-    <div>
-        <input type="button" id="btnsubmit" value="Submit" onclick="readCSVFile(target);">
-    </div>
-    <br><br>
-
-    <div id="blocoMensagem">
+    <div id="blocoMensagem" onclick="readCSVFile(target);">
         <img id="imagem" src="imagem.svg">
-        <p id="texto">
-            Entre um código de ética profissional, que me imporia a hipocrisia e minha liberdade de expressão e verdade da minha alma.
-        </p>
+        <p id="texto">...</p>
     </div>
 
-
-    <br><br>
-    <!-- List CSV file data -->
-    <table id="tblcsvdata" border="1" style="border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Data e hora</th>
-                <th>e-mail do responsável</th>
-                <th>Mensagem de ética</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
 </div>
 <script>
     const target = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSHuOn8ktKO3l4rirMV_TjqSP7mOizvssdFFb6VMLcl4kIxNB44h6kJNmHEPM73qdCNT4huOKSM1oi/pub?gid=1648505482&single=true&output=tsv";
@@ -96,9 +74,8 @@
 
             if (response.status === 200) {
                 const data = await response.text();
-                console.log(data);
-                //getContent(data);
-                getRounMessage(data);
+                //console.log(data);
+                getRandomMessage(data);
             } else {
                 console.log(`Error code ${response.status}`);
             }
@@ -108,10 +85,14 @@
 
     }
 
-    function getRounMessage(csvdata) {
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    function getRandomMessage(csvdata) {
         var rowData = csvdata.split('\n');
-        var randomLine = Math.floor(Math.random() * rowData.length);
-        console.log("Linha escolhida: "+randomLine);
+        var randomLine = randomIntFromInterval(2,rowData.length-1);
+        console.log("Linha escolhida: " + randomLine);
 
         let texto = rowData[randomLine].split('\t')[2];
         console.log("Texto: " + texto);
@@ -119,30 +100,9 @@
         messageElement.innerHTML = texto;
     }
 
-
-    function getContent(csvdata) {
-        var rowData = csvdata.split('\n');
-        var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
-        tbodyEl.innerHTML = ""
-        // Loop on the row Array (change row=0 if you also want to read 1st row)
-        for (var row = 1; row < rowData.length; row++) {
-            // Insert a row at the end of table
-            var newRow = tbodyEl.insertRow();
-
-            // Split by tabspace to get column Array
-            rowColData = rowData[row].split('\t');
-
-            // Loop on the row column Array
-            for (var col = 0; col < rowColData.length; col++) {
-
-                // Insert a cell at the end of the row
-                var newCell = newRow.insertCell();
-                newCell.innerHTML = rowColData[col];
-
-            }
-        }
-
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        readCSVFile();
+    });
 
 
 </script>
