@@ -2,10 +2,11 @@ FROM nginx:latest
 WORKDIR /usr/share/nginx/html/
 COPY ./ ./
 
-# docker build -t webserver .
-# docker run -it --rm -d -p 8080:80 --name web webserver
-# docker cp webserver:./ /usr/share/nginx/html/
+# docker build -t web .
+# docker run -it --rm -d -p 8080:80 --name web web
+# docker cp ./index.html web:/usr/share/nginx/html/index.html
 
 # docker image ls
-# docker image rm webserver
+# docker image rm web
 # docker container remove XXXX
+# docker logs -f web

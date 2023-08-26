@@ -1,3 +1,11 @@
+// atalhos queridinhos: 
+// indentar: shitf + alt + f
+// Criar um log: ctrl + alt + w e aperta pra baixo
+// Comentar: ctrl + ; ou shift + alt + a
+// SHIFT + DELETE → Apaga a linha
+// ALT + Z → Quebra de linha automática.
+
+
 // url do ojeto CSV
 const target = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSHuOn8ktKO3l4rirMV_TjqSP7mOizvssdFFb6VMLcl4kIxNB44h6kJNmHEPM73qdCNT4huOKSM1oi/pub?gid=1648505482&single=true&output=tsv";
 
@@ -7,7 +15,6 @@ let idx = 0;
 /**
  * Função para requisitar os objetos em csv 
  */
-
 const readCSVFile = async () => {
 
     try {
@@ -36,7 +43,7 @@ const readCSVFile = async () => {
  * 
  * @param {int} min 
  * @param {int} max 
- * @returns {int} valor randomico entr o menor min e maior max
+ * @returns {int} valor randomico entre o menor min e maior max
  */
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -44,11 +51,11 @@ function randomIntFromInterval(min, max) { // min and max included
 
 /**
  * 
- * @param {object} csvdata // objeto asyncrono contendo od dados da requisição 
- * @param {*} callbck //função de callback para executar ao termino da instrução completa
+ * @param {object} csvdata // objeto asyncrono contendo os dados da requisição 
+ * @param {*} callbck //função de callback para executar ao término da instrução completa
  */
 function getRandomMessage(csvdata, callbck) {
-    // transforma em array todas linahs
+    // transforma em array todas linhas
     let rowData = csvdata.split('\n');
     // embaralha randomicamente o array
     rowData = rowData.sort(() => (Math.random() > .5) ? 1 : -1);
@@ -56,7 +63,7 @@ function getRandomMessage(csvdata, callbck) {
     console.log("<rowData> -> ", rowData);
     for(let x=0; x<=rowData.length; x++){
         
-        console.log("x -> ", rowData[x]);
+        //console.log("x -> ", rowData[x]);
         
         if(rowData[x]){
             //não será mais necessário uima vezx que todos os dados ja foram carregados em apenas uma requisição
@@ -101,7 +108,7 @@ function carrossel(){
  * Função para inicializar o carrossel com intervalos de 1800ms
  */
 function carrosselSetInterval(){
-    setInterval(carrossel, 1800);
+    setInterval(carrossel, 180000);
 }
 
 /**
